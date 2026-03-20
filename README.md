@@ -11,13 +11,9 @@ The project is structured as a reproducible workflow based on secondary data. Th
 ## Repository Structure
 The repository is organized to ensure that every figure in the paper can be traced back to its specific source code:
 
-[/Data:](https://github.com/LuciaBart/SMIchildbirth/tree/main/Data) Contains anonymized secondary data from household surveys (Guatemala, Chiapas, Nicaragua, and Honduras).
+[/Data:](https://github.com/LuciaBart/essentialMedicines/tree/main/Data) Contains secondary data used for analysis.
 
-[/Scripts:](https://github.com/LuciaBart/SMIchildbirth/tree/main/Scripts)
-
-- 01_Birthsettingsdistribution.R: Analysis of the place of delivery for the 4 countries in each follow-up (Figs. 2-5). 
-
-- 02_Multiplepregnancies.R: Analysis of women with more than 1 child for the second follow-up (Figs. 7 and 8)
+[/Scripts:](https://github.com/LuciaBart/essentialMedicines/tree/main/Scripts) Each script is named like the Figure it reproduces, for each section.
 
 
 ## Instructions for Reproduction

@@ -10,7 +10,7 @@ library(patchwork)
 
 #Load databases
 
-load("PAPER/Data/datos_remediar_med.RData")
+load("Data/datos_remediar_med.RData")
 datos_remediar_med$fuente_financiamiento_id[datos_remediar_med$fuente_financiamiento_id == "1.1"] <- "National Treasury Funds"
 datos_remediar_med$fuente_financiamiento_id[datos_remediar_med$fuente_financiamiento_id == "2.2"] <- "International Funding"
 datos_remediar_med$fuente_financiamiento_id[datos_remediar_med$fuente_financiamiento_id == "1.4" | datos_remediar_med$fuente_financiamiento_id == "1.5"] <- "Other"

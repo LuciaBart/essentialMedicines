@@ -10,8 +10,8 @@ library(patchwork)
 
 #Load databases
 #load("datosFull_presu.Rdata")
-load("PAPER/Data/datos_programa.Rdata")
-load("PAPER/Data/datos_remediar_med.Rdata")
+load("Data/datos_programa.Rdata")
+load("Data/datos_remediar_med.Rdata")
 
 #calculo presupuesto remediar por año
 presu_remediar <- datos_programa %>%
@@ -67,7 +67,7 @@ theme_minimal() +
 
 ### Tabla 4. Presupuesto REMEDIAR por año
 
-load("PAPER/Data/datos_infl.RData")
+load("Data/datos_infl.RData")
 datos_infl <- datos_infl %>%
    dplyr::filter(
      ifelse(ano == 2019, jurisdiccion_id == 85, jurisdiccion_id == 80)

@@ -1,4 +1,4 @@
-fig6 <- read_excel("Entregas y medicamentos.xlsx")
+fig6 <- read_excel("Data/Entregas y medicamentos.xlsx")
 
 # 1. Preparación de los datos: Identificar los puntos donde el VDM cambia
 datos_para_geom_text <- fig6 %>%

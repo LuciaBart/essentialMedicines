@@ -1,4 +1,3 @@
-
 library(readxl)
 library(dplyr)
 library(tidyr)
@@ -7,7 +6,7 @@ library(patchwork)
 library(grid)
 
 
-df_raw <- read_excel("PAPER/Data/Info para cuadro.xlsx", sheet = "Hoja3")
+df_raw <- read_excel("Data/Info para cuadro.xlsx", sheet = "Hoja3")
 
 df <- df_raw %>%
   rename(

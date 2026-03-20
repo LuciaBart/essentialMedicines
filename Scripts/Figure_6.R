@@ -1,13 +1,13 @@
 #Figure 6
 
-base <- read_excel("distribucion.xls")
+base <- read_excel("Data/distribucion.xls")
 
 mapa <- base %>% 
   group_by(Año, Provincia) %>%
   summarise(Total_Tratamientos = sum(Tratamientos, na.rm = TRUE)) %>%
   ungroup()
 
-cod_prov <- read_excel("cod_prov.xlsx")
+cod_prov <- read_excel("Data/cod_prov.xlsx")
 
 mapa <- mapa %>% 
   left_join(cod_prov, by = "Provincia")
@@ -17,103 +17,17 @@ mapa <- mapa %>%
   dplyr::mutate(tto_pop = Total_Tratamientos/Total_P) %>% 
   dplyr::mutate(tto_pop_pub = Total_Tratamientos/cob_pub)
 
-# # ---- PARÁMETROS GENERALES ----
-# anios_seleccionados <- c("2003", "2016", "2023")
-# 
-# paletas_tratamientos <- list(
-#   "Tratamientos" = "PuRd"
-# )
-# etiquetas_tratamientos <- list(
-#   "Tratamientos" = "Tratamientos"
-# )
-# 
-# # ---- SHAPEFILE DE PROVINCIAS ----
-# provincias_ar <- geoAr::get_geo("ARGENTINA", "provincia") %>%
-#   dplyr::mutate(provincia = sprintf("%02d", as.numeric(codprov_censo)))
-# 
-# 
-# datos_filtrados_unidos <- mapa %>%
-#   filter(Año %in% anios_seleccionados) %>%
-#   left_join(provincias_ar, by = c("provincia" = "provincia")) %>% # Asumiendo que 'nombre' es la columna de provincias en el shapefile
-#   # Convertir a un objeto sf después del join es buena práctica si no lo era antes
-#   sf::st_as_sf()
-# 
-# 
-# max_tratamientos_global <- max(datos_filtrados_unidos$tto_pop_pub, na.rm = TRUE)
-# min_tratamientos_global <- min(datos_filtrados_unidos$tto_pop_pub, na.rm = TRUE)
-# 
-# 
-# mapas_tratamientos <- list()
-# 
-# for (year in anios_seleccionados) {
-#   # Filtrar los datos para el año actual
-#   data_for_year <- datos_filtrados_unidos %>%
-#     filter(Año == year)
-#   
-#   # Crear el mapa
-#   p <- ggplot(data = data_for_year) +
-#     geom_sf(aes(fill = tto_pop_pub), color = "gray20", linewidth = 0.1) +
-#     scale_fill_distiller(
-#       palette = paletas_tratamientos[["Tratamientos"]],
-#       direction = 1,
-#       name = etiquetas_tratamientos[["Tratamientos"]],
-#       limits = c(min_tratamientos_global, max_tratamientos_global),
-#       labels = scales::label_number(big.mark = ".", decimal.mark = ",")
-#     ) +
-#     labs(
-#       title = paste0("Total de Tratamientos \n por Provincia - Año ", year),
-#       subtitle = "Argentina"
-#     ) +
-#     theme_minimal() +
-#     theme(
-#       plot.title = element_text(hjust = 0.5, face = "bold"),
-#       plot.subtitle = element_text(hjust = 0.5),
-#       legend.position = "right",
-#       panel.grid.major = element_blank(),
-#       panel.grid.minor = element_blank(),
-#       axis.text = element_blank(),
-#       axis.title = element_blank(),
-#       axis.ticks = element_blank()
-#     ) +
-#     coord_sf(default_crs = NULL) # O puedes probar coord_sf(lims_method = "geometry_bbox")
-#   
-#   
-#   mapas_tratamientos[[as.character(year)]] <- p
-# }
 
-# 
-# # Para mostrar los mapas (puedes verlos uno por uno o usar patchwork/cowplot para combinarlos)
-# # Si quieres ver el mapa del 2003:
-# print(mapas_tratamientos[["2003"]])
-# 
-# # Si quieres ver el mapa del 2016:
-# print(mapas_tratamientos[["2016"]])
-# 
-# # Si quieres ver el mapa del 2023:
-# print(mapas_tratamientos[["2023"]])
-# 
-# # Para combinarlos en una sola vista (requiere instalar y cargar patchwork)
-# mapas_tratamientos[["2003"]] + mapas_tratamientos[["2016"]] + mapas_tratamientos[["2023"]] +
-#   plot_layout(ncol = 3) # O la disposición que prefieras
-
-
-
-
-
-
-
-# ---- PARÁMETROS GENERALES ----
-# Solo necesitamos el año 2023 para esta tarea
 anio_seleccionado <- "2023"
 
-# Definimos las variables que queremos mapear
+# Definimos las variables 
 variables_a_mapear <- c("Total_Tratamientos", "tto_pop", "tto_pop_pub")
 
-# Paletas y etiquetas (puedes ajustar según sea necesario)
+# Paletas y etiquetas
 paletas_mapa <- list(
   "Total_Tratamientos" = "Greens",
-  "tto_pop" = "Greens", # Cambié para diferenciarlos
-  "tto_pop_pub" = "Greens"  # Cambié para diferenciarlos
+  "tto_pop" = "Greens", 
+  "tto_pop_pub" = "Greens"  
 )
 
 etiquetas_mapa <- list(
@@ -122,19 +36,16 @@ etiquetas_mapa <- list(
   "tto_pop_pub" = "Treatments per population \n with public coverage"
 )
 
-# ---- SHAPEFILE DE PROVINCIAS ----
-# Cargar el shapefile (asegúrate de que geoAr esté configurado correctamente)
+# Cargar el shapefile 
 provincias_ar <- geoAr::get_geo("ARGENTINA", "provincia") %>%
   dplyr::mutate(provincia = sprintf("%02d", as.numeric(codprov_censo)))
 
-# ---- FILTRAR Y UNIR DATOS PARA EL AÑO 2023 ----
 datos_2023_unidos <- mapa %>%
   filter(Año == anio_seleccionado) %>%
   left_join(provincias_ar, by = c("provincia" = "provincia")) %>%
   sf::st_as_sf()
 
 
-# ---- GENERACIÓN DE MAPAS POR VARIABLE ----
 mapas_generados <- list()
 
 for (var in variables_a_mapear) {
@@ -172,13 +83,6 @@ for (var in variables_a_mapear) {
   mapas_generados[[var]] <- p
 }
 
-# --- MOSTRAR LOS MAPAS ---
-# Puedes ver cada mapa individualmente:
-print(mapas_generados[["Total_Tratamientos"]])
-print(mapas_generados[["tto_pop"]])
-print(mapas_generados[["tto_pop_pub"]])
-
-# Para combinarlos en una sola vista usando patchwork:
 mapas <- mapas_generados[["Total_Tratamientos"]] +
   mapas_generados[["tto_pop"]] +
   mapas_generados[["tto_pop_pub"]] +

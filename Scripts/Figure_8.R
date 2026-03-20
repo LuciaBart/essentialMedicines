@@ -1,6 +1,6 @@
 #Figure 8
 
-path_xlsx  <- "PAPER/Data/total_pais_public_2004_2012_2017_usd_trat.xlsx"
+path_xlsx  <- "Data/total_pais_public_2004_2012_2017_usd_trat.xlsx"
 sheet_name <- "total_pais_public_serie"
 
 df <- read_excel(path_xlsx, sheet = sheet_name) %>%

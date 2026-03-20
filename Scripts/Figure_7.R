@@ -5,9 +5,7 @@ library(janitor)
 library(readr)
 library(tidyverse)
 
-
-
-df_raw <- read_excel("PAPER/Data/gasto_bolsillo_quintiles.xlsx") %>%
+df_raw <- read_excel("Data/gasto_bolsillo_quintiles.xlsx") %>%
   clean_names() 
 
 df <- df_raw %>%
